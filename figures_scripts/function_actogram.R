@@ -5,8 +5,6 @@ plot_actogram = function(tuco, height = "vedba", plot_days = NA){
     require(egg)
     require(lubridate)
     require(dplyr)
-    source("03_analysis/plot_actogram/stat-bar-tile-etho.R") # From ggetho
-    source("03_analysis/plot_actogram/stat-tile-etho.R") # From ggetho 
 
     # Calculate Sunrise and Sunset Times
     # TODO: Take the median date first and only calculate crepuscules for that date.
@@ -124,10 +122,15 @@ plot_actogram = function(tuco, height = "vedba", plot_days = NA){
     }
     
     sexlabels = unique(tuco[,.(sex,ID)]) %>% mutate(sex = if_else(sex == "m", "M", "F"))
-    actograms = actograms + geom_text(x = Inf, y = Inf, 
-                                      aes(label = sex), 
-                                      data = sexlabels, vjust = 1.5, hjust = 1.6, 
-                                      size = 3, family = "roboto") + 
+    actograms = actograms + geom_text(data = sexlabels,
+                                      x = Inf,
+                                      y = Inf, 
+                                      aes(label = sex, color = sex),
+                                      vjust = 1.5,
+                                      hjust = 1.6, 
+                                      size = 4,
+                                      family = "roboto",
+                                      fontface = "bold") + 
         theme(legend.position = "none")
     actograms
 }
