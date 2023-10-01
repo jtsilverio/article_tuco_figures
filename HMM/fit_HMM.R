@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 set.seed(53)
 
-tuco = readRDS("data/activity_processed/tuco_processed.rds")
+tuco = readRDS("data/tuco_processed.rds")
 stateNames = c("Low","Medium","High")
 
 # prep HMM data ------------------------------------------------------------
@@ -33,16 +33,16 @@ m2 = fitHMM(data = tuco_hmm,
             stateNames =  stateNames)
 
 # Pseudo-residuals -------------------------------------------------------
-png(filename = "04_figures/residuals/m1_PR.png", width = 1200, height = 1000)
+png(filename = "HMM/m1_PR.png", width = 1200, height = 1000)
 plotPR(m1, lag.max = 1500, ncores = 6)
 dev.off()
 
-png(filename = "04_figures/residuals/m2_PR.png", width = 1200, height = 1000)
+png(filename = "HMM/m2_PR.png", width = 1200, height = 1000)
 plotPR(m2, lag.max = 1500, ncores = 6)
 dev.off()
 
 # Save Models ------------------------------------------------------------
-saveRDS(m1, "03_analysis/hmm/m1.rds")
-saveRDS(m2, "03_analysis/hmm/m2.rds")
+# saveRDS(m1, "HMM/m1.rds")
+# saveRDS(m2, "HMM/m2.rds")
 
 

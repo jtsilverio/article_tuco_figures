@@ -3,11 +3,11 @@ library(ggplot2)
 library(momentuHMM)
 library(data.table)
 
-tuco = readRDS("01_data/activity_processed/tuco_processed.rds")
-tuco.metadata = fread("01_data/animals/animal_metadata.csv")
+tuco = readRDS("data/tuco_processed.rds")
+tuco.metadata = fread("data/animals/animal_metadata.csv")
 
 # Read Models ------------------------------------------------------------------
-m2 = readRDS("03_analysis/hmm/m2.rds") 
+m2 = readRDS("HMM/m2.rds") 
 
 # Viterbi Decoding -------------------------------------------------------------
 decoded = viterbi(m2)

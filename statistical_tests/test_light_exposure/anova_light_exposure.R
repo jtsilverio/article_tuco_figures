@@ -1,7 +1,7 @@
 # Calculate Above ground bouts of activity
 #source("../03_analysis/light_exposure/function_bouts.R")
-tuco = readRDS("01_data/activity_processed/tuco_processed.rds")
-tuco.metadata = read.csv("01_data/animals/animal_metadata.csv")
+tuco = readRDS("data/tuco_processed.rds")
+tuco.metadata = read.csv("data/animals/animal_metadata.csv")
 
 # list of animals that had luximeter
 tuco_luximeter = tuco.metadata %>% filter(lux, recaptured, collar_recovered) %>% dplyr::select(ID)    

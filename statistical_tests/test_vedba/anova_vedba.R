@@ -1,7 +1,7 @@
 library(dplyr)
 library(ggplot2)
 library(purrr)
-tuco = readRDS("01_data/activity_processed/tuco_processed.rds")
+tuco = readRDS("data/tuco_processed.rds")
 
  # Daily Mean VeDBA ANOVA ------------------------------------------------------
 vedba_daily = tuco %>% 

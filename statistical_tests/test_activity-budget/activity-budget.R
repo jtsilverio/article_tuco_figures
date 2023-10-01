@@ -2,10 +2,10 @@ library(dplyr)
 library(ggplot2)
 library(momentuHMM)
 
-tuco = readRDS("01_data/activity_processed/tuco_processed.rds")
+tuco = readRDS("data/tuco_processed.rds")
 
 # Read Models ------------------------------------------------------------------
-m2 = readRDS("03_analysis/hmm/m2.rds") # modelo com 
+m2 = readRDS("HMM/m2.rds") # modelo com 
 
 # Viterbi State Decoding -------------------------------------------------------
 decoded = viterbi(m2)

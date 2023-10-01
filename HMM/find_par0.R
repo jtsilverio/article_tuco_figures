@@ -9,7 +9,7 @@ library(dplyr)
 library(parallel)
 
 start_script = Sys.time()
-tuco = readRDS("01_data/rds/tuco_preprocessed.rds")
+tuco = readRDS("data/tuco_processed.rds")
 set.seed(53)
 niter = 100
 retryfits = 2

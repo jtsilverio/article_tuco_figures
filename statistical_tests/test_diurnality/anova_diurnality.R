@@ -3,10 +3,10 @@ library(ggplot2)
 library(momentuHMM)
 library(lubridate)
 
-tuco = readRDS("01_data/activity_processed/tuco_processed.rds")
+tuco = readRDS("data/tuco_processed.rds")
 
 # Read Models ------------------------------------------------------------------
-m2 = readRDS("03_analysis/hmm/m2.rds") # modelo com 
+m2 = readRDS("hmm/m2.rds") # modelo com 
 
 # Viterbi Decoding -------------------------------------------------------------
 decoded = viterbi(m2)
