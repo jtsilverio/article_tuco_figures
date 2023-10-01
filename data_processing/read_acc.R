@@ -6,7 +6,7 @@
 library(data.table) # For speed instead of data.frames we are using data.tables
 library(lubridate)
 # Set data folder
-dir.data = paste0(getwd(),"/01_data/activity_raw")
+dir.data = paste0(getwd(),"/data/activity_raw")
 # Get all files in data folder
 files = list.files(path = dir.data, pattern = "*\\.csv$", full.names = F)
 # Disconsider animal OCT02 - It was predated and collar found 1km from the tunnel malfunctiong.
@@ -57,4 +57,4 @@ tuco_acc[,ID := factor(ID, levels = c("MAR01", "MAR02",
                                       "FEV01", "FEV02", "FEV03", "FEV05", "FEV06"))]
 
 #Save created data.frame as a .rds file
-#saveRDS(tuco_acc, "data_rds/activity/tuco_10hz_raw.rds")
+#saveRDS(tuco_acc, "data/tuco_10hz_raw.rds")

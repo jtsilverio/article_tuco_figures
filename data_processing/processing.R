@@ -91,7 +91,10 @@ if (sys.nframe() == 0){
     library(lubridate)
     library(maptools)
     library(xts)
-    source("02_data_processing/read_acc.R")
+    source("data_processing/read_acc.R")
+    source("data_processing/read_lux.R")
+    # RAW DATA SHOULD BE IN 'data/activity_raw/' AND 'data/lux_raw/'
+    
 
     # subset animals for DBA smooth window assesment --------------------------
     tuco_subset = tuco_acc[ID %in% c("FEV02","MAR02","JUL16", "OCT08")]
@@ -112,7 +115,6 @@ if (sys.nframe() == 0){
     tuco_acc = downsample(tuco_acc)
 
     # Join Acc and Lux --------------------------------------------------------
-    source("02_data_processing/read_lux.R")
     tuco = join_acc_lux(tuco_acc, tuco_lux)
     tuco = add_sex_season(tuco)
     tz(tuco$datetime) = "America/Argentina/La_Rioja"
@@ -157,6 +159,6 @@ if (sys.nframe() == 0){
                         "temp", "vedba", "lux",
                         "daytime", "aboveground"))
     
-    saveRDS(tuco, "01_data/activity_processed/tuco_processed.rds")
+    saveRDS(tuco, "data/tuco_processed.rds")
     gc()
 }
