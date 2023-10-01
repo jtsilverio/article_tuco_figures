@@ -1,4 +1,4 @@
-'''
+```
 .
 ├── data
 │   ├── tuco_processed.rds  Processed activity data
@@ -11,4 +11,4 @@
 ├── statistical_tests       Scripts to reproduce all statistical tests in the article
 ├── suplemental_info        Scripts to reproduce all plots and tables in the supplements
 └── utils                   Utilitary scripts used in plots and analysis
-'''
+```
