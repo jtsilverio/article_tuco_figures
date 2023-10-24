@@ -28,7 +28,9 @@ sunriset_season = calc_sunriset(tuco)
 
 # calculate daylength ----------------------------------------------------------
 anillaco = matrix(c(-66.95, -28.8), nrow = 1) 
-daylength = tuco[, .(datetime = median(datetime)), by = ID]
+daylength = tuco %>% 
+    group_by(ID) %>% 
+    summarise(datetime = median(datetime))
 
 daylength$dawn = maptools::crepuscule(crds = anillaco,
                                       dateTime = daylength$datetime,
@@ -42,7 +44,11 @@ daylength$dusk = maptools::crepuscule(crds = anillaco,
                                       direction = "dusk",
                                       POSIXct.out=TRUE)$day_frac  * 1440
 
-daylength = daylength[, .(daylength = dusk - dawn), by = ID]
+daylength = daylength %>% 
+    group_by(ID) %>% 
+    mutate(daylength = dusk - dawn) %>% 
+    select(-datetime)
+
 tuco = left_join(tuco, daylength, by = "ID")
 
 # Decode HMM state -------------------------------------------------------------
@@ -170,10 +176,9 @@ acf_dist_plot = ggplot(acf_peaks %>% filter(rhythmic == T),
     theme(legend.position = "none")
 
 
-rhythmicity_plot = acf_dist_plot  + patchwork::plot_layout(widths = c(2,1))
 
 # Compose Figure
-fig_05 = density_plot / diurnality_plot / rhythmicity_plot + patchwork::plot_annotation(tag_levels = "A")  + patchwork::plot_layout(heights = c(2,1,1))
+fig_05 = density_plot / diurnality_plot / acf_dist_plot + patchwork::plot_annotation(tag_levels = "A")  + patchwork::plot_layout(heights = c(3,1,1))
 
 ggsave(filename = "plots/fig_05.png",
        plot = fig_05,
