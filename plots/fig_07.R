@@ -85,9 +85,17 @@ tuco_hourly_mean = tuco_hourly %>%
     summarize(mean = mean(sum)) %>% 
     ungroup()
 
+ann_text = data.frame(
+    season = "Autumn",
+    time = 700,
+    mean = 2.7
+)
 
 light_patterns = ggplot(data = tuco_hourly_mean,
                         aes(x = time,y = mean)) +
+    geom_text(data = ann_text,
+              label = "NO DATA",
+              color="grey70") +
     geom_line(data = tuco_hourly,
               aes(x = time, y = sum, fill = ID),
               size = 0.4,
@@ -108,7 +116,7 @@ light_patterns = ggplot(data = tuco_hourly_mean,
     theme(legend.position = "none") +
     xlab("Time (h)") +
     ylab("Mean number of\nsurface emergences")
-
+light_patterns
 
 # Second Half
 graph_t_aboveground = ggplot(data = time_aboveground, aes(x = season, y = mean_t_aboveground)) +
