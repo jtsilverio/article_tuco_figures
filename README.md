@@ -14,3 +14,7 @@
 └── utils                   Utilitary scripts used in plots and analysis
 
 ```
+
+## Raw Data
+- http://doi.org/10.6084/m9.figshare.24587071
+
