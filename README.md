@@ -9,6 +9,8 @@
 ├── HMM                     HMM fitting and initial parameters search
 ├── plots                   Scripts to reproduce all plots in the article
 ├── statistical_tests       Scripts to reproduce all statistical tests in the article
+├── statistical_report      Statistical report that analysed some parameters we used in the main paper
 ├── suplemental_info        Scripts to reproduce all plots and tables in the supplements
 └── utils                   Utilitary scripts used in plots and analysis
+
 ```
