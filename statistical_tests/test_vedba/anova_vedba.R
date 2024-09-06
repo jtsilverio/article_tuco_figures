@@ -26,6 +26,10 @@ aov_vedba_daily = aov(data = vedba_daily, formula = vedba~season)
 summary(aov_vedba_daily)
 TukeyHSD(aov_vedba_daily) # compare groups
 
+# heterocedasticity
+bartlett.test(vedba ~ season, data = vedba_daily)
+
+
 # Daytime Mean VeDBA Anova ----------------------------------------------------------
 vedba_daytime = tuco %>%
     group_by(ID, season, date = lubridate::date(datetime)) %>% 
@@ -37,6 +41,9 @@ vedba_daytime = tuco %>%
 aov_vedba_daytime = aov(data = vedba_daytime, formula = vedba~season)
 summary(aov_vedba_daytime)
 TukeyHSD(aov_vedba_daytime) # compare groups
+
+# heterocedasticity
+bartlett.test(vedba ~ season, data = vedba_daytime)
 
 # Daily Mean VeDBA ANOVA ------------------------------------------------------
 vedba_daily = tuco %>% 

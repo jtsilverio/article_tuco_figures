@@ -45,11 +45,18 @@ shapiro.test(time_aboveground %>% pluck("mean_p_aboveground"))
 # shapiro.test(time_aboveground %>% filter(season == "October") %>% pluck("mean_p_aboveground"))
 # shapiro.test(time_aboveground %>% filter(season == "February") %>% pluck("mean_p_aboveground"))
 
+# heterocedasticity
+bartlett.test(mean_t_aboveground~season, data = time_aboveground)
+
 # ANOVA TESTS ------------------------------------------------------------------
 # AOV DAILY TIME OF LIGHT EXPOSURE
 aov_time_light = aov(data = time_aboveground, formula = mean_t_aboveground~season)
 summary(aov_time_light)
 TukeyHSD(aov_time_light)
+
+
+# heterocedasticity
+bartlett.test(mean_p_aboveground~season, data = time_aboveground)
 
 # AOV DAILY PERCENTEGE OF LIGHT EXPOSURE
 aov_perc_light = aov(data = time_aboveground, formula = mean_p_aboveground~season)
