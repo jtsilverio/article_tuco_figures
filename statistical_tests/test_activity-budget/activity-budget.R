@@ -1,6 +1,7 @@
 library(dplyr)
 library(ggplot2)
 library(momentuHMM)
+library(purrr)
 
 tuco = readRDS("data/tuco_processed.rds")
 
