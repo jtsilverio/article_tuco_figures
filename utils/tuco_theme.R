@@ -1,5 +1,7 @@
 library(sysfonts)
 library(showtext)
+library(jsonlite)
+library(curl)
 
 # Set Theme --------------------------------------------------------------------
 font_add_google("Roboto Condensed", "roboto")

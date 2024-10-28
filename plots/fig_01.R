@@ -32,21 +32,6 @@ decoded = viterbi(m2)
 tuco$state = factor(decoded, labels = c("Low","Medium","High"))
 
 
-# Transformation function to invert datetime in ggplot -------------------------
-c_trans <- function(a, b, breaks = b$breaks, format = b$format) {
-    a <- scales::as.trans(a)
-    b <- scales::as.trans(b)
-    
-    name <- paste(a$name, b$name, sep = "-")
-    
-    trans <- function(x) a$trans(b$trans(x))
-    inv <- function(x) b$inverse(a$inverse(x))
-    
-    scales::trans_new(name, trans, inverse = inv, breaks = breaks, format=format)
-}
-rev_date <- c_trans("reverse", "date")
-
-
 # Plot and Save Actograms ------------------------------------------------------
 actograms_autumn = plot_actogram(tuco %>% filter(season == "Autumn"), plot_days = 5)
 actograms_autumn = actograms_autumn + ggtitle("Autumn")

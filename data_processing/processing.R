@@ -89,7 +89,7 @@ if (sys.nframe() == 0){
     library(zoo)
     library(tidyr)
     library(lubridate)
-    library(maptools)
+    library(suntools)
     library(xts)
     source("data_processing/read_acc.R")
     source("data_processing/read_lux.R")

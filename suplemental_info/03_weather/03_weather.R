@@ -3,7 +3,7 @@ library(lubridate)
 library(dplyr)
 library(egg)
 library(patchwork)
-library(maptools)
+library(suntools)
 
 source("utils/tuco_theme.R")
 

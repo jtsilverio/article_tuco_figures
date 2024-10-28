@@ -16,13 +16,13 @@ tuco$state = factor(decoded, labels = c("Rest","Medium","High"))
 anillaco = matrix(c(-66.95, -28.8), nrow = 1) 
 daylength = tuco[, .(datetime = median(datetime)), by = ID]
 
-daylength$dawn = maptools::crepuscule(crds = anillaco,
+daylength$dawn = suntools::crepuscule(crds = anillaco,
                                       dateTime = daylength$datetime,
                                       solarDep = 6,
                                       direction = "dawn",
                                       POSIXct.out=TRUE)$day_frac  * 1440
 
-daylength$dusk = maptools::crepuscule(crds = anillaco,
+daylength$dusk = suntools::crepuscule(crds = anillaco,
                                       dateTime = daylength$datetime,
                                       solarDep = 6,
                                       direction = "dusk",

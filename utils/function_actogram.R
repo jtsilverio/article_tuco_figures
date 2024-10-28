@@ -5,13 +5,15 @@ plot_actogram = function(tuco, height = "vedba", plot_days = NA){
     require(egg)
     require(lubridate)
     require(dplyr)
+    require(suntools)
+    require(crayon)
 
     # Calculate Sunrise and Sunset Times
     # TODO: Take the median date first and only calculate crepuscules for that date.
     anillaco = matrix(c(-66.95, -28.8), nrow = 1) 
-    tuco$dawn    = maptools::crepuscule(crds = anillaco, dateTime = tuco$datetime,
+    tuco$dawn    = suntools::crepuscule(crds = anillaco, dateTime = tuco$datetime,
                          solarDep = 6, direction = "dawn", POSIXct.out=TRUE)$day_frac  * 1440
-    tuco$dusk    = maptools::crepuscule(crds = anillaco, dateTime = tuco$datetime,
+    tuco$dusk    = suntools::crepuscule(crds = anillaco, dateTime = tuco$datetime,
                                         solarDep = 6, direction = "dusk", POSIXct.out=TRUE)$day_frac  * 1440
     tuco = tuco[,dawn := median(dawn), by = ID] 
     tuco = tuco[,dusk := median(dusk), by = ID] 
@@ -68,19 +70,6 @@ plot_actogram = function(tuco, height = "vedba", plot_days = NA){
     tuco[,lux := ifelse(lux >= 2, 1, 0)]
     tuco[,lux := ifelse(is.na(tuco$lux), 0, lux)]
     
-    # Transformation function to invert datetime in ggplot
-    c_trans <- function(a, b, breaks = b$breaks, format = b$format) {
-        a <- scales::as.trans(a)
-        b <- scales::as.trans(b)
-        
-        name <- paste(a$name, b$name, sep = "-")
-        
-        trans <- function(x) a$trans(b$trans(x))
-        inv <- function(x) b$inverse(a$inverse(x))
-        
-        scales::trans_new(name, trans, inverse = inv, breaks = breaks, format=format)
-    }
-    rev_date <- c_trans("reverse", "date")
     # Actograms Activity -------------------------------------------------------
     # If 'none' it will plot VeDBA, otherwise it will plot states
     if(height == "vedba"){
@@ -91,7 +80,7 @@ plot_actogram = function(tuco, height = "vedba", plot_days = NA){
             geom_bar_tile(mapping = aes(height = lux), fill = "orange", alpha = 0.4, width = 5) +
             geom_bar_tile(mapping = aes(height = vedba), width = 1) +
             scale_x_continuous(limits = c(0, 1440), breaks = c(0,360,720,1080,1440), labels = c(0,6,12,18,24)) +
-            scale_y_continuous(trans = rev_date) + 
+            scale_y_continuous(trans = c("date", "reverse")) + 
             facet_wrap(~ID, scales = "free_y", ncol = 3) +
             xlab("") +
             ylab("") + 

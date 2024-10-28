@@ -37,18 +37,18 @@ tuco$state = factor(decoded, labels = c("Low","Medium","High"))
 
 # VeDBA Actograms ---------------------------------------------------------
 actograms_vedba = tuco %>% filter(ID == "ID:OCT09" & day_number <= 5) %>% 
-    ggplot(aes(x = time, y = day_number)) +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"), 
+    ggplot(aes(x = time, y = date(datetime))) +
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"), 
                aes(xintercept = dawn), color = "grey60", linetype = 2, size = 0.5) +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"),
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"),
                aes(xintercept = dusk),  color = "grey60", linetype = 2, size = 0.5) +
     geom_bar_tile(mapping = aes(height = vedba), width = 1, color = "black") +
     scale_x_continuous(limits = c(0, 1440), breaks = c(0,360,720,1080,1440), labels = c(0,6,12,18,24)) +
-    scale_y_continuous(trans = "reverse", breaks = 1:5) +
+    scale_y_continuous(trans = c("date", "reverse")) + 
     facet_wrap(~ID, scales = "free_y", ncol = 3) +
-    ggtitle("General Activity") +
+    ggtitle("General Activity") + 
     xlab("Time (h)") +
-    ylab("")+
+    ylab("Day")+
     theme(panel.grid.major.y = element_line(color = "grey95"))
 
 
@@ -115,16 +115,16 @@ act_rle = act_rle[-across_index,] %>%
 actograms_low = act_rle %>%
     filter(ID == "ID:OCT09" & status == "Low" & day_number <= 5) %>% 
     ggplot() +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"), 
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"), 
                aes(xintercept = dawn), color = "grey60", linetype = 2, size = 0.5) +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"),
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"),
                aes(xintercept = dusk),  color = "grey60", linetype = 2, size = 0.5) +
-    geom_linerange(aes(y = day_number,
+    geom_linerange(aes(y = date(start_date),
                        xmin = start_time,
                        xmax = end_time,
                        color = status),
-                   size = 7) +
-    scale_y_continuous(trans = "reverse", breaks = 1:5, expand = c(0.1, 0.1)) +
+                   size = 8) +
+    scale_y_continuous(trans = c("date", "reverse"),  expand = c(0.1, 0.1)) + 
     scale_x_continuous(breaks = c(0, 360, 720, 1080, 1440), 
                        labels = c(0, 6, 12, 18, 24)) +
     scale_color_manual(values = tuco_pal) +
@@ -137,16 +137,16 @@ actograms_low = act_rle %>%
 actograms_medium = act_rle %>%
     filter(ID == "ID:OCT09" & status == "Medium" & day_number <= 5) %>% 
     ggplot() +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"), 
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"), 
                aes(xintercept = dawn), color = "grey60", linetype = 2, size = 0.5) +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"),
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"),
                aes(xintercept = dusk),  color = "grey60", linetype = 2, size = 0.5) +
-    geom_linerange(aes(y = day_number,
+    geom_linerange(aes(y = date(start_date),
                        xmin = start_time,
                        xmax = end_time,
                        color = status),
                    size = 7) +
-    scale_y_continuous(trans = "reverse", breaks = 1:5, expand = c(0.1, 0.1)) +
+    scale_y_continuous(trans = c("date", "reverse"),  expand = c(0.1, 0.1)) + 
     scale_x_continuous(breaks = c(0, 360, 720, 1080, 1440), 
                        labels = c(0, 6, 12, 18, 24)) +
     scale_color_manual(values = tuco_pal) +
@@ -159,16 +159,16 @@ actograms_medium = act_rle %>%
 actograms_high = act_rle %>%
     filter(ID == "ID:OCT09" & status == "High" & day_number <= 5) %>% 
     ggplot() +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"), 
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"), 
                aes(xintercept = dawn), color = "grey60", linetype = 2, size = 0.5) +
-    geom_vline(data = sunriset %>% filter(ID == "ID:OCT09"),
+    geom_vline(data = sunriset_season %>% filter(season == "Spring"),
                aes(xintercept = dusk),  color = "grey60", linetype = 2, size = 0.5) +
-    geom_linerange(aes(y = day_number,
+    geom_linerange(aes(y = date(start_date),
                        xmin = start_time,
                        xmax = end_time,
                        color = status),
                    size = 7) +
-    scale_y_continuous(trans = "reverse", breaks = 1:5, expand = c(0.1, 0.1)) +
+    scale_y_continuous(trans = c("date", "reverse"),  expand = c(0.1, 0.1)) + 
     scale_x_continuous(breaks = c(0, 360, 720, 1080, 1440), 
                        labels = c(0, 6, 12, 18, 24)) +
     scale_color_manual(values = tuco_pal) +
@@ -188,8 +188,8 @@ remove_facet = theme(strip.text.x = element_blank(),
 # Time Series
 tuco_selected = tuco_selected[day_number <= 5]
 sunriset_oct09 = data.frame(date = unique(as_date(tuco_selected$datetime))) %>% 
-    mutate(dawn = sunriset %>% filter(ID == "ID:OCT09") %>% pull(dawn),
-           dusk = sunriset %>% filter(ID == "ID:OCT09") %>% pull(dusk),
+    mutate(dawn = sunriset_season %>% filter(season == "Spring") %>% pull(dawn),
+           dusk = sunriset_season %>% filter(season == "Spring") %>% pull(dusk),
            dawn = lubridate::ymd_hm(paste0(date,
                                            " ",
                                            stringr::str_pad(dawn %/% 60, 2, pad = "0"),
@@ -254,12 +254,14 @@ fig_04 = actograms_vedba +
     theme(plot.tag.position = c(0, 1),
           plot.tag = element_text(hjust = 0, vjust = 0))
 
-ggsave(filename = "plots/fig_04.png",
-       plot = fig_04,
-       device = "png",
-       dpi = 132,
-       width = 1200,
-       height = 800,
-       units = "px",
-       bg = "white")
+fig_04
+# 
+# ggsave(filename = "plots/fig_04.png",
+#        plot = fig_04,
+#        device = "png",
+#        dpi = 132,
+#        width = 1200,
+#        height = 800,
+#        units = "px",
+#        bg = "white")
 

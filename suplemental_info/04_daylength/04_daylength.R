@@ -1,5 +1,5 @@
 require(ggplot2)
-require(maptools)
+require(suntools)
 
 # Anillaco's Coordinates
 anillaco = matrix(c(-66.95, -28.8), nrow = 1)

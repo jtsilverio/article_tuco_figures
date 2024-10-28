@@ -32,13 +32,13 @@ daylength = tuco %>%
     group_by(ID) %>% 
     summarise(datetime = median(datetime))
 
-daylength$dawn = maptools::crepuscule(crds = anillaco,
+daylength$dawn = suntools::crepuscule(crds = anillaco,
                                       dateTime = daylength$datetime,
                                       solarDep = 6,
                                       direction = "dawn",
                                       POSIXct.out=TRUE)$day_frac  * 1440
 
-daylength$dusk = maptools::crepuscule(crds = anillaco,
+daylength$dusk = suntools::crepuscule(crds = anillaco,
                                       dateTime = daylength$datetime,
                                       solarDep = 6,
                                       direction = "dusk",
